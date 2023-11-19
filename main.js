@@ -2,12 +2,14 @@ const sockets = [];
 const bids = [];
 let currentBid = 5_000_000;
 
+// send message to all clients
 function broadcast(message) {
   for (const socket of sockets) {
     socket.send(message);
   }
 }
 
+// remove all clients after bid finished
 function removeSocket(socket) {
   const index = sockets.indexOf(socket);
 
@@ -17,6 +19,7 @@ function removeSocket(socket) {
   }
 }
 
+// start bid, fire up using /start endpoint
 function startBid() {
   broadcast(
     JSON.stringify({ type: "bidding_start", user: "admin", bid: currentBid }),
@@ -36,6 +39,7 @@ function startBid() {
   }, 61 * 1000);
 }
 
+// client place bid, server put a history and broadcast to all clients
 function placeBid(event) {
   const message = JSON.parse(event.data);
   currentBid = currentBid + message.bid;
@@ -57,17 +61,24 @@ const server = Deno.serve({
     if (request.headers.get("upgrade") === "websocket") {
       const { socket, response } = Deno.upgradeWebSocket(request);
 
+      // client registration
       socket.onopen = () => sockets.push(socket);
+
+      // client communication
       socket.onmessage = (event) => placeBid(event);
+
+      // client disconnected/close connection
       socket.onclose = () => removeSocket(socket);
       socket.onerror = (error) => console.error("ERROR:", error);
 
       return response;
     } else if (request.url.search("/start") !== -1) {
+      // start bid
       startBid();
 
       return new Response("Bidding started", { status: 200 });
     } else {
+      // serve static file
       const file = await Deno.open("./index.html", { read: true });
 
       return new Response(file.readable);

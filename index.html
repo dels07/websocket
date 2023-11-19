@@ -97,6 +97,7 @@
       historyBid.scrollTop = historyBid.scrollHeight;
     }
 
+    // send message to socket
     function placeBid(bid) {
       const msg = JSON.stringify({type: 'place_bid', user: bidder, bid});
 
@@ -138,6 +139,7 @@
       let countdownInterval = setInterval(updateCountdown, 1000);
     }
 
+    // generate user id and connect to server
     websocket.onopen = (e) => {
       greetUser(bidder);
       updateConnectionStatus('connected');
@@ -149,6 +151,7 @@
       console.log(`DISCONNECTED: ${bidder}`);
     };
 
+    // listen for message from server
     websocket.onmessage = (e) => {
       const {type, user, bid} = JSON.parse(e.data);
       console.log(e.data);
