@@ -36,6 +36,7 @@ function startBid() {
     }
 
     bids.length = 0;
+    currentBid = 5_000_000;
 
     console.log(`BID END`);
   }, 61 * 1000);
