@@ -35,6 +35,8 @@ function startBid() {
       removeSocket(socket);
     }
 
+    bids.length = 0;
+
     console.log(`BID END`);
   }, 61 * 1000);
 }

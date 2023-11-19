@@ -209,11 +209,11 @@
         console.log(e.data);
 
         if (action == "bidding_start") {
-          buttonBid.classList.toggle("invisible");
+          buttonBid.classList.remove("invisible");
           startBid(user, bid);
           startCountdown(60);
         } else if (action == "bidding_end") {
-          buttonBid.classList.toggle("invisible");
+          buttonBid.classList.add("invisible");
           endBid(user, bid);
         } else {
           updateBid(user, bid);
