@@ -98,7 +98,6 @@
       const timerBid = document.querySelector("#timer-bid");
       const buttonBid = document.querySelector("#button-bid");
       const userGreeter = document.querySelector("#user-greeter");
-      const connectionStatus = document.querySelector("#connection-status");
       const placeBid100 = document.querySelector("#place-bid-100");
       const placeBid250 = document.querySelector("#place-bid-250");
       const placeBid500 = document.querySelector("#place-bid-500");
@@ -197,12 +196,10 @@
       // generate user id and connect to server
       websocket.onopen = (e) => {
         greetUser();
-        updateConnectionStatus("connected");
         console.log(`CONNECTED: ${bidder}`);
       };
 
       websocket.onclose = (e) => {
-        updateConnectionStatus("disconnected");
         console.log(`DISCONNECTED: ${bidder}`);
       };
 
