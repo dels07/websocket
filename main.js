@@ -22,14 +22,14 @@ function removeSocket(socket) {
 // start bid, fire up using /start endpoint
 function startBid() {
   broadcast(
-    JSON.stringify({ type: "bidding_start", user: "admin", bid: currentBid }),
+    JSON.stringify({ action: "bidding_start", user: "admin", bid: currentBid }),
   );
   console.log(`BID START`);
 
   setTimeout(() => {
     const winner = bids.slice(-1)[0];
 
-    broadcast(JSON.stringify({ ...winner, type: "bidding_end" }));
+    broadcast(JSON.stringify({ ...winner, action: "bidding_end" }));
 
     for (const socket of sockets) {
       removeSocket(socket);
@@ -44,7 +44,7 @@ function placeBid(event) {
   const message = JSON.parse(event.data);
   currentBid = currentBid + message.bid;
 
-  if (message.type == "place_bid") {
+  if (message.action == "place_bid") {
     const placeBid = { ...message, bid: currentBid };
 
     bids.push(placeBid);
