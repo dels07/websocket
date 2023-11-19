@@ -92,7 +92,7 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      const wsUri = "ws://127.0.0.1/";
+      const wsUri = `wss://${window.location.hostname}/`;
       const currentBid = document.querySelector("#current-bid");
       const historyBid = document.querySelector("#history-bid");
       const timerBid = document.querySelector("#timer-bid");
